@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Nexus</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #008080;
+            background-size: cover;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        header {
+            text-align: center;
+            background-color: #008080;
+            color: white;
+            padding: 8px;
+        }
+
+         h2, h3 {
+            color: #008080;
+            text-align: center;
+        }
+        h1{
+            font-size:38px;
+            text-align:center;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #008080;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005f5f;
+        }
+        
+
+        .item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .item img {
+            width: 100px;
+            height: 100px;
+            border-radius: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2px;
+            background-color: #008080;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="title">Campus Nexus</h1>
+        <p class="subtitle">Connecting Students, Empowering Futures</p>
+    </header>
+    <!-- Login Section -->
+    <div id="login-section" class="container">
+        <h2> Welcome to Campus Nexus </h2>
+        <h2>Login</h2>
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" placeholder="Enter your email" required>
+
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" placeholder="Enter your password" required>
+
+        <button onclick="login()">Login</button>
+        <p style="text-align:center; margin-top:10px;">Don't have an account? <a href="#" onclick="showSignup()">Sign up</a></p>
+    </div>
+
+    <!-- Signup Section -->
+    <div id="signup-section" class="container" style="display: none;">
+        <h2>Welcome to Campus Nexus</h2>
+        <h2>Sign Up</h2>
+        <label for="signup-username">Username</label>
+        <input type="text" id="signup-username" placeholder="Enter your username" required>
+
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" placeholder="Enter your email" required>
+
+        <label for="signup-phone">Phone Number</label>
+        <input type="tel" id="signup-phone" placeholder="Enter your phone number" required>
+
+        <label for="signup-password">Password</label>
+        <input type="password" id="signup-password" placeholder="Enter your password" required>
+
+        <label for="signup-role">Select Role</label>
+        <select id="signup-role" required>
+            <option value="senior">Senior</option>
+            <option value="junior">Junior</option>
+        </select>
+        <button onclick="signup()">Sign Up</button>
+        <p style="text-align:center; margin-top:10px;">Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+    </div>
+
+    <!-- Senior Dashboard -->
+    <div id="home-senior" class="container" style="display: none;">
+        <h2>Welcome, Senior!</h2>
+        <h3>Append Item</h3>
+        <label for="item-name">Item Name</label>
+        <input type="text" id="item-name" placeholder="Enter item name">
+        <label for="item-price">Price</label>
+        <input type="text" id="item-price" placeholder="Enter item price (leave blank if free)">
+        <label for="item-image">Item Image</label>
+        <input type="file" id="item-image">
+        <button onclick="addItem()">Add Item</button>
+        <h3>Items Appended</h3>
+        <div id="senior-items"></div>
+    </div>
+
+    <!-- Junior Dashboard -->
+    <div id="home-junior" class="container" style="display: none;">
+        <h2>Welcome, Junior!</h2>
+        <h3>Available Items</h3>
+        <div id="junior-items"></div>
+    </div>
+
+    <footer>
+        <p>&copy; Campus Nexus. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let items = JSON.parse(localStorage.getItem('items')) || [];
+    
+        function showLogin() {
+            document.getElementById('login-section').style.display = 'block';
+            document.getElementById('signup-section').style.display = 'none';
+        }
+    
+        function showSignup() {
+            document.getElementById('signup-section').style.display = 'block';
+            document.getElementById('login-section').style.display = 'none';
+        }
+    
+        function login() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+    
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(u => u.email === email && u.password === password);
+    
+            if (!user) {
+                alert('Invalid email or password!');
+                return;
+            }
+    
+            localStorage.setItem('loggedInUser', JSON.stringify(user));
+    
+            document.getElementById('login-section').style.display = 'none';
+            if (user.role === 'senior') {
+                document.getElementById('home-senior').style.display = 'block';
+                renderSeniorItems();
+            } else {
+                document.getElementById('home-junior').style.display = 'block';
+                renderJuniorItems();
+            }
+        }
+    
+        function signup() {
+            const username = document.getElementById('signup-username').value;
+            const email = document.getElementById('signup-email').value;
+            const phone = document.getElementById('signup-phone').value;
+            const password = document.getElementById('signup-password').value;
+            const role = document.getElementById('signup-role').value;
+    
+            if (!username || !email || !phone || !password) {
+                alert('Please fill in all fields.');
+                return;
+            }
+    
+            const newUser = { username, email, phone, password, role };
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+    
+            alert('Signup successful! Please log in.');
+            showLogin();
+        }
+    
+        function addItem() {
+            const itemName = document.getElementById('item-name').value;
+            const itemPrice = document.getElementById('item-price').value;
+            const itemImageInput = document.getElementById('item-image');
+            const itemImage = itemImageInput.files[0];
+            const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    
+            if (!itemName || !itemImage) {
+                alert('Please provide an item name and image.');
+                return;
+            }
+    
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const newItem = {
+                    name: itemName,
+                    price: itemPrice || 'Free',
+                    phone: loggedInUser.phone, // Correctly set phone number
+                    image: e.target.result,
+                };
+    
+                items.push(newItem);
+                localStorage.setItem('items', JSON.stringify(items));
+                renderSeniorItems();
+                renderJuniorItems();
+            };
+            reader.readAsDataURL(itemImage);
+        }
+    
+        function renderSeniorItems() {
+            const seniorItemsContainer = document.getElementById('senior-items');
+            seniorItemsContainer.innerHTML = items
+                .map(
+                    (item, index) => `
+                    <div class="item">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div>
+                            <p><strong>${item.name}</strong></p>
+                            <p>Price: ${item.price}</p>
+                            <p>Contact: ${item.phone}</p>
+                            <button onclick="removeItem(${index})">Remove</button>
+                        </div>
+                    </div>`
+                )
+                .join('');
+        }
+    
+        function renderJuniorItems() {
+            const juniorItemsContainer = document.getElementById('junior-items');
+            juniorItemsContainer.innerHTML = items
+                .map(
+                    (item, index) => `
+                    <div class="item">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div>
+                            <p><strong>${item.name}</strong></p>
+                            <p>Price: ${item.price}</p>
+                            <p>Contact: ${item.phone}</p>
+                            <button onclick="acceptItem(${index})">Accept</button>
+                        </div>
+                    </div>`
+                )
+                .join('');
+        }
+    
+        function removeItem(index) {
+            items.splice(index, 1);
+            localStorage.setItem('items', JSON.stringify(items));
+            renderSeniorItems();
+            renderJuniorItems();
+        }
+    
+        function acceptItem(index) {
+            alert(You accepted: ${items[index].name});
+            items.splice(index, 1);
+            localStorage.setItem('items', JSON.stringify(items));
+            renderJuniorItems();
+            renderSeniorItems();
+        }
+    </script>
+    
+</body>
+</html>
