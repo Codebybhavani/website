@@ -3,301 +3,415 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Nexus</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #008080;
-            background-size: cover;
-            color: #333;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        }
-        header {
-            text-align: center;
-            background-color: #008080;
-            color: white;
-            padding: 8px;
-        }
-
-         h2, h3 {
-            color: #008080;
-            text-align: center;
-        }
-        h1{
-            font-size:38px;
-            text-align:center;
-        }
-
-        label {
-            font-weight: bold;
-        }
-
-        input, select, button {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        button {
-            background-color: #008080;
-            color: white;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #005f5f;
-        }
-        
-
-        .item {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-
-        .item img {
-            width: 100px;
-            height: 100px;
-            border-radius: 5px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 2px;
-            background-color: #008080;
-            color: white;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
+    <title>Senior-Junior Exchange</title>
+    
 </head>
 <body>
     <header>
         <h1 class="title">Campus Nexus</h1>
         <p class="subtitle">Connecting Students, Empowering Futures</p>
     </header>
-    <!-- Login Section -->
-    <div id="login-section" class="container">
-        <h2> Welcome to Campus Nexus </h2>
-        <h2>Login</h2>
-        <label for="login-email">Email</label>
-        <input type="email" id="login-email" placeholder="Enter your email" required>
-
-        <label for="login-password">Password</label>
-        <input type="password" id="login-password" placeholder="Enter your password" required>
-
+    <div class="container" id="login-page">
+        <h2>Step into our Nexus..!</h2>
+        <input type="email" id="login-email" placeholder="Email" required>
+        <input type="password" id="login-password" placeholder="Password" required>
         <button onclick="login()">Login</button>
-        <p style="text-align:center; margin-top:10px;">Don't have an account? <a href="#" onclick="showSignup()">Sign up</a></p>
+        <p>Don't have an account? <a href="#" onclick="showSignupPage()">Sign up</a></p>
     </div>
 
-    <!-- Signup Section -->
-    <div id="signup-section" class="container" style="display: none;">
-        <h2>Welcome to Campus Nexus</h2>
-        <h2>Sign Up</h2>
-        <label for="signup-username">Username</label>
-        <input type="text" id="signup-username" placeholder="Enter your username" required>
-
-        <label for="signup-email">Email</label>
-        <input type="email" id="signup-email" placeholder="Enter your email" required>
-
-        <label for="signup-phone">Phone Number</label>
-        <input type="tel" id="signup-phone" placeholder="Enter your phone number" required>
-
-        <label for="signup-password">Password</label>
-        <input type="password" id="signup-password" placeholder="Enter your password" required>
-
-        <label for="signup-role">Select Role</label>
-        <select id="signup-role" required>
+    <div class="container hidden" id="signup-page">
+        <h2>Who's Joining us Today ?</h2>
+        <input type="text" id="signup-name" placeholder="Name" required>
+        <input type="email" id="signup-email" placeholder="Email" required>
+        <input type="text" id="signup-phone" placeholder="Phone Number" required>
+        <input type="password" id="signup-password" placeholder="Password" required>
+        <select id="signup-role">
             <option value="senior">Senior</option>
             <option value="junior">Junior</option>
         </select>
         <button onclick="signup()">Sign Up</button>
-        <p style="text-align:center; margin-top:10px;">Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+        <p>Already have an account? <a href="#" onclick="showLoginPage()">Login</a></p>
+    </div>
+    
+
+    <div class="container hidden" id="senior-dashboard">
+        <h2>Welcome Senior..!</h2>
+        <div class="button-container">
+            <button onclick="showAddItemForm()" class="append-items-btn">
+                Append Items
+            </button>
+            <button onclick="showAnswerQuestions()">Answer Questions</button>
+        </div>
+        
+
+        <div class="hidden" id="add-item-form">
+            <h2>Add Item</h2>
+            <input type="text" id="item-name" placeholder="Item Name" required>
+            <input type="file" id="item-image" accept="image/*" required>
+            <input type="number" id="item-price" placeholder="Price" required>
+            <button onclick="addItem()">Add Item</button>
+        </div>
+        <div class="hidden" id="answer-questions">
+            <h2>Answer Questions</h2>
+            <div class="questions-list" id="questions-list"></div>
+        </div>
     </div>
 
-    <!-- Senior Dashboard -->
-    <div id="home-senior" class="container" style="display: none;">
-        <h2>Welcome, Senior!</h2>
-        <h3>Append Item</h3>
-        <label for="item-name">Item Name</label>
-        <input type="text" id="item-name" placeholder="Enter item name">
-        <label for="item-price">Price</label>
-        <input type="text" id="item-price" placeholder="Enter item price (leave blank if free)">
-        <label for="item-image">Item Image</label>
-        <input type="file" id="item-image">
-        <button onclick="addItem()">Add Item</button>
-        <h3>Items Appended</h3>
-        <div id="senior-items"></div>
-    </div>
+    <div class="container hidden" id="junior-dashboard">
+        <h2>Welcome Junior..!</h2>
+        <button onclick="showAskQuestionForm()">Ask Questions</button>
+        <button onclick="showItemsList()">Accept Items</button>
+        <div class="hidden" id="ask-question-form">
+            <h2>Ask Question</h2>
+            <textarea id="question-text" placeholder="Enter your question"></textarea>
+            <button onclick="askQuestion()">Ask</button>
+        </div>
+        <button onclick="showAnsweredQuestions()">View Answered Questions</button>
 
-    <!-- Junior Dashboard -->
-    <div id="home-junior" class="container" style="display: none;">
-        <h2>Welcome, Junior!</h2>
-        <h3>Available Items</h3>
-        <div id="junior-items"></div>
-    </div>
 
+
+        <div class="hidden" id="items-list">
+            <h2>Items</h2>
+            <div class="items-list" id="items-container"></div>
+        </div>
+        <div class="hidden" id="answered-questions">
+            <h2>Answered Questions</h2>
+            <div class="questions-list" id="answered-questions-list"></div>
+        </div>
+    </div>
+    <link rel="stylesheet" href="1css.css">
+
+    
+    
     <footer>
         <p>&copy; Campus Nexus. All rights reserved.</p>
     </footer>
 
     <script>
-        let items = JSON.parse(localStorage.getItem('items')) || [];
     
-        function showLogin() {
-            document.getElementById('login-section').style.display = 'block';
-            document.getElementById('signup-section').style.display = 'none';
+
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        let questions = JSON.parse(localStorage.getItem('questions')) || [];
+        
+        let currentUser = null;
+        let items = JSON.parse(localStorage.getItem('items')) || [
+    {
+        name: 'Used Laptop',
+        image: 'https://via.placeholder.com/100',
+        price: 300
+    },
+    {
+        name: 'Books',
+        image: 'https://via.placeholder.com/100',
+        price: 50
+    }
+];
+
+function showJuniorDashboard() {
+    document.getElementById('junior-dashboard').classList.remove('hidden');
+    document.getElementById('login-page').classList.add('hidden');
+    renderJuniorItems(); // Ensure items are displayed
+}
+
+
+
+
+        function showLoginPage() {
+            hideAllSections();
+            document.getElementById('login-page').classList.remove('hidden');
+            document.getElementById('signup-page').classList.add('hidden');
         }
-    
-        function showSignup() {
-            document.getElementById('signup-section').style.display = 'block';
-            document.getElementById('login-section').style.display = 'none';
+
+        function showSignupPage() {
+            hideAllSections();
+            document.getElementById('signup-page').classList.remove('hidden');
+            document.getElementById('login-page').classList.add('hidden');
         }
-    
+        function answerQuestion(index, answer) {
+            questions[index].answered = true;
+            questions[index].answer = answer;
+            localStorage.setItem('questions', JSON.stringify(questions));
+            renderQuestions();
+        }
+        // After adding an item, call renderJuniorItems for juniors to see the new item
+// After adding an item, call renderJuniorItems for juniors to see the new item
+function addItem() {
+    const name = document.getElementById('item-name').value;
+    const imageInput = document.getElementById('item-image');
+    const price = document.getElementById('item-price').value;
+
+    if (!name || !imageInput.files[0] || !price) {
+        alert('Please fill out all fields.');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const newItem = {
+            name,
+            image: e.target.result,
+            price
+        };
+
+        // Add the new item to the items array
+        items.push(newItem);
+        localStorage.setItem('items', JSON.stringify(items)); // Store updated items in localStorage
+
+        alert('Item added successfully.');
+
+        // Re-render items for both Senior and Junior
+        renderItems(); // Render for senior
+        renderJuniorItems(); // Render for junior
+
+        // Clear input fields
+        document.getElementById('item-name').value = '';
+        document.getElementById('item-image').value = '';
+        document.getElementById('item-price').value = '';
+    };
+
+    reader.readAsDataURL(imageInput.files[0]);
+    localStorage.setItem('items', JSON.stringify(items));
+}
+
+// Function to render items for juniors, ensuring they see the new items added by seniors
+// Function to render items for juniors, ensuring they see the new items added by seniors
+// Function to render items for juniors, ensuring they see the new items added by seniors
+function renderJuniorItems() {
+    const juniorItemsContainer = document.getElementById('items-container');
+    juniorItemsContainer.innerHTML = ''; // Clear any existing items
+
+    // Reload items from localStorage
+    const storedItems = JSON.parse(localStorage.getItem('items')) || [];
+
+    storedItems.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'item';
+        div.innerHTML = `
+            <h3>${item.name}</h3>
+            <img src="${item.image}" alt="${item.name}">
+            <p>Price: ${item.price}</p>
+            <button onclick="acceptItem(${index})">Accept</button>
+        `;
+        juniorItemsContainer.appendChild(div);
+    });
+}
+
+
+
+// Ensure items are fetched from localStorage and rendered on junior login
+function showJuniorDashboard() {
+    document.getElementById('junior-dashboard').classList.remove('hidden');
+    document.getElementById('login-page').classList.add('hidden');
+
+    // Re-render the list of items for the junior after login
+    renderJuniorItems();
+}
+
+// Render items in the senior dashboard (for reference)
+function renderItems() {
+    const seniorItemsContainer = document.getElementById('items-container');
+    seniorItemsContainer.innerHTML = ''; // Clear existing items
+
+    // Render items for senior dashboard
+    items.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'item';
+        div.innerHTML = `
+            <h3>${item.name}</h3>
+            <img src="${item.image}" alt="${item.name}">
+            <p>Price: ${item.price}</p>
+            <button onclick="removeItem(${index})">Remove</button>
+        `;
+        seniorItemsContainer.appendChild(div);
+    });
+}
+
+// Function to remove an item from the senior's list
+function removeItem(index) {
+    items.splice(index, 1); // Remove item from the array
+    localStorage.setItem('items', JSON.stringify(items)); // Update localStorage
+    renderItems(); // Re-render senior items
+    renderJuniorItems(); // Re-render junior items to reflect the change
+}
+
+// When junior accepts an item
+function acceptItem(index) {
+    const acceptedItem = items[index];
+    items.splice(index, 1); // Remove the item from the list
+    localStorage.setItem('items', JSON.stringify(items)); // Update localStorage
+    renderItems(); // Re-render items for senior
+    renderJuniorItems(); // Re-render items for junior
+    alert(`You have accepted the item: ${acceptedItem.name}`);
+    localStorage.setItem('items', JSON.stringify(items));
+}
+
+
+
+
         function login() {
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
-    
-            const users = JSON.parse(localStorage.getItem('users')) || [];
             const user = users.find(u => u.email === email && u.password === password);
-    
-            if (!user) {
-                alert('Invalid email or password!');
-                return;
-            }
-    
-            localStorage.setItem('loggedInUser', JSON.stringify(user));
-    
-            document.getElementById('login-section').style.display = 'none';
-            if (user.role === 'senior') {
-                document.getElementById('home-senior').style.display = 'block';
-                renderSeniorItems();
+
+            if (user) {
+                currentUser = user;
+                if (user.role === 'senior') {
+                    showSeniorDashboard();
+                } else {
+                    showJuniorDashboard();
+                }
             } else {
-                document.getElementById('home-junior').style.display = 'block';
-                renderJuniorItems();
+                alert('Invalid email or password.');
             }
         }
-    
+
         function signup() {
-            const username = document.getElementById('signup-username').value;
+            const name = document.getElementById('signup-name').value;
             const email = document.getElementById('signup-email').value;
             const phone = document.getElementById('signup-phone').value;
             const password = document.getElementById('signup-password').value;
             const role = document.getElementById('signup-role').value;
-    
-            if (!username || !email || !phone || !password) {
-                alert('Please fill in all fields.');
+
+            if (users.find(u => u.email === email)) {
+                alert('Email already registered.');
                 return;
             }
-    
-            const newUser = { username, email, phone, password, role };
-            const users = JSON.parse(localStorage.getItem('users')) || [];
-            users.push(newUser);
+
+            users.push({ name, email, phone, password, role });
             localStorage.setItem('users', JSON.stringify(users));
-    
-            alert('Signup successful! Please log in.');
-            showLogin();
+            alert('Signup successful. Please login.');
+            showLoginPage();
         }
-    
-        function addItem() {
-            const itemName = document.getElementById('item-name').value;
-            const itemPrice = document.getElementById('item-price').value;
-            const itemImageInput = document.getElementById('item-image');
-            const itemImage = itemImageInput.files[0];
-            const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-    
-            if (!itemName || !itemImage) {
-                alert('Please provide an item name and image.');
-                return;
-            }
-    
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const newItem = {
-                    name: itemName,
-                    price: itemPrice || 'Free',
-                    phone: loggedInUser.phone, // Correctly set phone number
-                    image: e.target.result,
-                };
-    
-                items.push(newItem);
-                localStorage.setItem('items', JSON.stringify(items));
-                renderSeniorItems();
-                renderJuniorItems();
-            };
-            reader.readAsDataURL(itemImage);
+
+        function showSeniorDashboard() {
+            hideAllSections();
+            document.getElementById('senior-dashboard').classList.remove('hidden');
+            document.getElementById('login-page').classList.add('hidden');
         }
-    
-        function renderSeniorItems() {
-            const seniorItemsContainer = document.getElementById('senior-items');
-            seniorItemsContainer.innerHTML = items
-                .map(
-                    (item, index) => `
-                    <div class="item">
-                        <img src="${item.image}" alt="${item.name}">
-                        <div>
-                            <p><strong>${item.name}</strong></p>
-                            <p>Price: ${item.price}</p>
-                            <p>Contact: ${item.phone}</p>
-                            <button onclick="removeItem(${index})">Remove</button>
-                        </div>
-                    </div>`
-                )
-                .join('');
+
+        
+
+        function showAddItemForm() {
+            document.getElementById('add-item-form').classList.remove('hidden');
+            document.getElementById('answer-questions').classList.add('hidden');
         }
+
+        function showAnsweredQuestions() {
+           
+    // Show the answered questions section
+    document.getElementById('answered-questions').classList.remove('hidden');
+
+    // Hide other sections of the dashboard
+    document.getElementById('ask-question-form').classList.add('hidden');
+    document.getElementById('items-list').classList.add('hidden');
     
-        function renderJuniorItems() {
-            const juniorItemsContainer = document.getElementById('junior-items');
-            juniorItemsContainer.innerHTML = items
-                .map(
-                    (item, index) => `
-                    <div class="item">
-                        <img src="${item.image}" alt="${item.name}">
-                        <div>
-                            <p><strong>${item.name}</strong></p>
-                            <p>Price: ${item.price}</p>
-                            <p>Contact: ${item.phone}</p>
-                            <button onclick="acceptItem(${index})">Accept</button>
-                        </div>
-                    </div>`
-                )
-                .join('');
+    console.log('Button clicked, showing answered questions...');
+    console.log('Questions array:', questions); // Debugging output
+    renderAnsweredQuestions();
         }
-    
-        function removeItem(index) {
-            items.splice(index, 1);
-            localStorage.setItem('items', JSON.stringify(items));
-            renderSeniorItems();
-            renderJuniorItems();
+
+
+    // Render the answered questions
+
+        function showAskQuestionForm() {
+            document.getElementById('ask-question-form').classList.remove('hidden');
+            document.getElementById('items-list').classList.add('hidden');
         }
-    
-        function acceptItem(index) {
-            alert(You accepted: ${items[index].name});
-            items.splice(index, 1);
-            localStorage.setItem('items', JSON.stringify(items));
-            renderJuniorItems();
-            renderSeniorItems();
+
+        function showItemsList() {
+            document.getElementById('items-list').classList.remove('hidden');
+            document.getElementById('ask-question-form').classList.add('hidden');
+            renderItems();
         }
+
+        function askQuestion() {
+            const questionText = document.getElementById('question-text').value;
+            questions.push({ text: questionText, answered: false, answer: '' });
+            localStorage.setItem('questions', JSON.stringify(questions));
+            alert('Question asked successfully.');
+            document.getElementById('question-text').value = '';
+        }
+        function showAnswerQuestions() {
+            document.getElementById('answer-questions').classList.remove('hidden');
+            document.getElementById('add-item-form').classList.add('hidden');
+            renderQuestions();
+        }
+        function renderQuestions() {
+            const container = document.getElementById('questions-list');
+            container.innerHTML = '';
+            questions.forEach((q, index) => {
+                const div = document.createElement('div');
+                div.className = 'question';
+                div.innerHTML = `<p>${q.text}</p>`;
+                if (!q.answered) {
+                    const input = document.createElement('textarea');
+                    input.placeholder = 'Your answer';
+                    const button = document.createElement('button');
+                    button.textContent = 'Answer';
+                    button.onclick = () => answerQuestion(index, input.value);
+                    div.appendChild(input);
+                    div.appendChild(button);
+                } else {
+                    div.innerHTML += `<p><strong>Answer:</strong> ${q.answer}</p>`;
+                }
+                container.appendChild(div);
+            });
+        }
+
+        function answerQuestion(index, answer) {
+            questions[index].answered = true;
+            questions[index].answer = answer;
+            localStorage.setItem('questions', JSON.stringify(questions));
+            renderQuestions();
+        }
+
+
+
+
+
+        
+
+        function renderAnsweredQuestions() {
+    const container = document.getElementById('answered-questions-list');
+    container.innerHTML = ''; // Clear previous content
+
+    questions.forEach(q => {
+        if (q.answered) {
+            const div = document.createElement('div');
+            div.className = 'qa-box';
+            div.innerHTML = `
+                <div class="question-box">
+                    <strong>Question:</strong>
+                    <p>${q.text}</p>
+                </div>
+                <div class="answer-box">
+                    <strong>Answer:</strong>
+                    <p>${q.answer}</p>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+    });
+}
+
+function hideAllSections() {
+    const sections = document.querySelectorAll('.container');
+    sections.forEach(section => section.classList.add('hidden'));
+}
+
+
+
+function fetchQuestions() {
+    fetch('http://localhost:3000/questions')
+        .then(response => response.json())
+        .then(fetchedQuestions => {
+            questions = fetchedQuestions; // Update local questions array
+            renderAnsweredQuestions();
+        });
+}
+
+
+
     </script>
-    
 </body>
 </html>
